@@ -38,6 +38,7 @@ describe("Pembayaran", () => {
         cy.get('.note-editable').type('haha')
         cy.get('#iUserPassword').type('password')
         cy.get('.col-sm-10 > .btn').click()
+        cy.get('#iUserName')
     })
 });
 
