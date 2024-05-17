@@ -1,4 +1,5 @@
 import { login } from '../support/login'; // Pastikan path file sudah sesuai
+import pembayaranPage from "../support/pageObject/genetic/pembayaran.page";
 
 describe("Pembayaran", () => {
     beforeEach(() => {
@@ -13,32 +14,31 @@ describe("Pembayaran", () => {
     });
 
     it("DetailPembayaran", () => {
-        cy.get(':nth-child(2) > .sorting_1').click()
-        cy.get('.dtr-data > .btn').click()
+        pembayaranPage.ClickDetail1()
+        pembayaranPage.ClickDetailPmbyrn()
     })
 
     it("CetakStruk", () => {
-        cy.get(':nth-child(2) > .sorting_1').click()
-        cy.get('.dtr-data > .btn').click()
-        cy.get('.btn-default').click()
+        pembayaranPage.ClickDetail1()
+        pembayaranPage.ClickDetailPmbyrn()
+        pembayaranPage.ClickBtnCtkStrk()
     })
 
-    it.only("NE-BatalkanPembayaran-KolomDikosongkan", () => {
-        cy.get(':nth-child(1) > .sorting_1').click()
-        cy.get('.dtr-data > .btn').click()
-        cy.get('.btn-danger').click()
-        cy.get('.col-sm-10 > .btn').click()
-        cy.get('#parsley-id-3 > .parsley-required').should('have.text','Kata sandi harus diisi')
+    it("NE-BatalkanPembayaran-KolomDikosongkan", () => {
+        pembayaranPage.ClickDtail2()
+        pembayaranPage.ClickDetailPmbyrn()
+        pembayaranPage.ClickBtlknPmbyrn()
+        pembayaranPage.ClickBtlknPmbyrn()
+        cy.get(pembayaranPage.AlrtRqrdPssw).should('have.text','Kata sandi harus diisi')
     })
 
     it("PE-BatalkanPembayaran", () => {
-        cy.get(':nth-child(2) > .sorting_1').click()
-        cy.get('.dtr-data > .btn').click()
-        cy.get('.btn-danger').click()
-        cy.get('.note-editable').type('haha')
-        cy.get('#iUserPassword').type('password')
-        cy.get('.col-sm-10 > .btn').click()
-        cy.get('#iUserName')
+        pembayaranPage.ClickDetail1()
+        pembayaranPage.ClickDetailPmbyrn()
+        pembayaranPage.ClickBtlknPmbyrn()
+        cy.get(pembayaranPage.AlsnBtl).type('haha')
+        cy.get(pembayaranPage.PsswAlsn).type('password')
+        pembayaranPage.ClickBtlknPmbyrn()
     })
 });
 

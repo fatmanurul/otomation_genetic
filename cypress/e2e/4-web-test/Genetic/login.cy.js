@@ -6,7 +6,7 @@ describe("Login", () => {
   })
 
   it("Ne-Kolom Diskosongkan", () => {
-    loginPage.clickLoginBtn()
+    loginPage.ClickLoginBtn()
     cy.get(loginPage.RqiredEmail).should('have.text', 'Alamat email harus diisi')
     cy.get(loginPage.RqiredPsswrd).should('have.text', 'Kata sandi harus diisi')
   });

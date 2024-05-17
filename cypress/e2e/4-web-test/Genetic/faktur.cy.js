@@ -1,4 +1,6 @@
 import { login } from '../support/login'; // Pastikan path file sudah sesuai
+import fakturPage from '../support/pageObject/genetic/faktur.page';
+
 
 describe("Faktur", () => {
     beforeEach(() => {
@@ -13,8 +15,8 @@ describe("Faktur", () => {
     });
 
     it("Detail Daftar", () => {
-        cy.get('tbody > :nth-child(1) > .text-right').click()
-        cy.get('.dtr-data > .btn').click()
+        fakturPage.ClickDtail()
+        fakturPage.ClickDtailFaktur()
     })
 
 });

@@ -1,5 +1,6 @@
 import { login } from '../support/login'; // Pastikan path file sudah sesuai
 import 'cypress-file-upload'; // Menambahkan dukungan untuk mengunggah file
+import prossesPage from '../support/pageObject/genetic/prosses.page';
 
 describe("Proses", () => {
     beforeEach(() => {
@@ -14,72 +15,70 @@ describe("Proses", () => {
     });
 
     it("DetailProsses ", () => {
-        cy.get('.sorting_1').click();
-        cy.get('.dtr-data > .btn').click();
+        prossesPage.ClickDtailPsnan()
+        prossesPage.ClickDtailPrssses()
     });
 
-    it("BatalkanProsses ", () => {
-        cy.get('.sorting_1').click();
-        cy.get('.dtr-data > .btn').click();
+    it("Ne-BatalkanProsses ", () => {
+       prossesPage.ClickDtailPsnan()
+       prossesPage.ClickDtailPrssses()
         // batalkan prosses
-        cy.get('.btn').click();
+       prossesPage.ClickBtlkn()
         cy.get('.col-sm-10 > .btn').click();
     });
 
     it("BatalkanProsses dengan Alasan", () => {
-        cy.get('.sorting_1').click();
-        cy.get('.dtr-data > .btn').click();
-        cy.get('.btn').click();
-        cy.get('.note-editable').type('alasan');
-        cy.get('#iUserPassword').type('password');
+         prossesPage.ClickDtailPsnan()
+        prossesPage.ClickDtailPrssses()
+        prossesPage.ClickBtlkn()
+        cy.get(prossesPage.AlsnDbtlkn).type('alasan');
+        cy.get(prossesPage.AlsnDbtlkn).type('password');
         cy.get('.col-sm-10 > .btn').click();
     });
 
     it("Pembayaran", () => {
-        cy.get('.odd > .sorting_1').click();
-        cy.get('.dtr-data > .btn-success').click();
-        cy.get('#iProcessPaidDate').type('2024-05-08');
+        cy.get(prossesPage.DetailP).click();
+        prossesPage.ClickProssesSelesai()
+        cy.get(prossesPage.TglPmbyrn).type('2024-05-08');
         // Tindakan mengklik elemen input file untuk memilih gambar
-        cy.get('#iProcessPaidPicture').click();
+        cy.get(prossesPage.BuktiPmbyrn).click();
         // Mendapatkan file gambar dari direktori fixture dan mengunggahnya
         cy.fixture('brownis bunga1.jpg').then(fileContent => {
             cy.uploadImage('input[type="file"]', 'brownis bunga1.jpg');
         });
-        cy.get('.note-editable').type('alasan');
+        cy.get(prossesPage.AlsnDbtlkn).type('alasan');
         cy.get('.col-sm-10 > .btn').click();
     });
 
-    it("NE-ststusProsses ", () => {
-        cy.get(':nth-child(1) > .sorting_1').click();
-        cy.get('.dtr-data > .btn-warning').click();
-        cy.get(':nth-child(1) > .swal-button').click()
+    it.only("NE-ststusProsses ", () => {
+        prossesPage.ClickBtnDetailProsses()
+        prossesPage.ClickProsses()
+        cy.get(prossesPage.BatalPrsoses).click()
     });
 
     it("Pe-ststusProsses ", () => {
-        cy.get(':nth-child(1) > .sorting_1').click();
-        cy.get('.dtr-data > .btn-warning').click();
-        cy.get(':nth-child(2) > .swal-button').click()
+        cy.get(prossesPage.ClickBtnDetailProsses).click();
+        prossesPage.ClickProsses()
+        cy.get(prossesPage.Prosses).click()
     });
 
     it("Ne-ProssesSelesaiInputanTakDiisi ", () => {
-        cy.get(':nth-child(1) > .sorting_1').click();
-        cy.get('.dtr-data > .btn-success').click()
-        cy.get('.col-sm-10 > .btn').click()
-        cy.get('#parsley-id-5 > .parsley-required').should('have.text', 'Harga harus diisi');
-    cy.get('#parsley-id-9 > .parsley-required').should('have.text', 'Foto proses harus dipilih');
+        cy.get(prossesPage.ClickBtnDetailProsses).click();
+        prossesPage.ClickProssesSelesai()
+        prossesPage.ClickBtnBtlkn()
+        cy.get(prossesPage.RqrdHarga).should('have.text', 'Harga harus diisi');
+    cy.get(prossesPage.RqrdFtoProsses).should('have.text', 'Foto proses harus dipilih');
     });
 
-    it.only("Po-ProssesSelesai ", () => {
-        cy.get(':nth-child(1) > .sorting_1').click();
-        cy.get('.dtr-data > .btn-success').click();
-        cy.get('#iProcessProductOrdersPrice').type('10000');
+    it("Po-ProssesSelesai ", () => {
+        cy.get(prossesPage.ClickBtnDetailProsses).click();
+        prossesPage.ProssesSelesai()
+        cy.get(prossesPage.Harga).type('10000');
         const imagePath = 'brownis bunga1.jpg'; // Nama file fixture
-         cy.get('#iOrderProductsDataFile').click(); // Klik pada input file
+         cy.get(prossesPage.FotoProsses).click(); // Klik pada input file
             cy.get('input[type="file"]').attachFile(imagePath); // Mengunggah file dengan menggunakan attachFile()
              cy.wait(5000); // Menunggu proses unggah selesai
             cy.get('.col-sm-10 > .btn').click(); // Klik tombol setelah proses unggah selesai
     });
     
-
-
 });
